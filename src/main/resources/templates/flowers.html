@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Loop</title>
+</head>
+<body>
+<h1>th:each</h1>
+<ul>
+    <th:block th:each="flower : ${flowers}">
+        <li th:utext="${flower}">..</li>
+    </th:block>
+</ul>
+</body>
+</html>

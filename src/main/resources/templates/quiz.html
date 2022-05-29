@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Quiz</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{../js/jquery-3.3.1.min.js}"></script>
+</head>
+<body>
+<form class="container mt-2 ms-2">
+<h3 th:utext="${quiz.question}"></h3>
+<br class="form-check">
+    <th:block th:each="answer,istat : ${quiz.answers}">
+    <input class="form-check-input" type="radio" name="radio_group" th:id="'radio' + ${istat.index}" th:attr="value=${istat.index}">
+    <label class="form-check-label" th:attr="for='radio'+${istat.index}" th:utext="${answer}">
+    </label></br>
+    </th:block>
+    <button id="submit" type="button" class="btn btn-primary mt-3">Submit</button>
+</br>
+    <div id="answer"></div>
+</div>
+
+</form>
+<script th:inline="javascript">
+    var id= [[${quiz.id}]];
+    var rightAnswer = [[${quiz.answer}]];
+
+    $('#submit').click(function() {
+        let number = $("input[name='radio_group']:checked").val();
+        console.log(rightAnswer,number)
+            $('#answer').empty();
+            var badge = $('<span>');
+        if (rightAnswer==number)
+            badge.addClass("badge bg-success").html("Success");
+        else
+            badge.addClass("badge bg-danger").html("Wrong");
+            $('#answer').append(badge);
+        //console.log(number);
+        var answer = {id: id, answer: number};
+        fetch("/sendanswer", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(answer)
+        }).then(res=> {
+            //console.log(JSON.stringify(answer));
+    });
+        $('input[name="radio_group"]').prop('checked', false); //Убрать выбор
+    }
+
+    );
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>If/Unless</title>
+    <style>
+        .product-container {
+            padding: 5px;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+            height: 80px;
+        }
+        .img-container {
+            float: left;
+            margin-right: 5px;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<h1>th:if</h1>
+<div class="product-container" th:each="product : ${products}">
+    <!--/* If the product has image, this code will be rendered. */-->
+    <div class="img-container" th:if="${product.image}">
+        <img th:src="@{|/images/${product.image}|}" height="70" />
+    </div>
+    <div class="img-container" th:unless="${product.image}">
+        <img th:src="@{|/images/not_available.png|}" height="70" />
+    </div>
+    <div>
+        <b>Code:</b> <span th:utext="${product.code}"></span>
+    </div>
+    <div>
+        <b>Name:</b> <span th:utext="${product.name}"></span>
+    </div>
+</div>
+</body>
+</html>

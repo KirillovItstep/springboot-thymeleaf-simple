@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Loop</title>
+</head>
+<body>
+    <th:block th:each="color, istat : ${colors}">
+        <!--Insert value into attribute-->
+        <input type="color" th:id="'color' + ${istat.index}" name="favcolor" th:attr="value=${color}">
+    </br>
+    </th:block>
+
+<script>
+    var inputColor = document.getElementById("color0");
+    inputColor.addEventListener("input", function() {
+        var color = inputColor.value;
+        //console.log(color)
+
+        var data = {name: color};
+        fetch("/getcolor", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        }).then(res=> {
+            console.log(JSON.stringify(data));
+    });
+    })
+
+
+</script>
+</body>
+</html>
