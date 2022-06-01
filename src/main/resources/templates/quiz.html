@@ -17,13 +17,31 @@
     </th:block>
     <button id="submit" type="button" class="btn btn-primary mt-3">Submit</button>
 </br>
-    <div id="answer"></div>
+    <p class="text-danger warning"  th:text="${res}"></p>
+    <p class="text-danger warning"  th:utext="${result}"></p>
+    <div id="answer">
+
+        <span class="badge bg-success">Success</span>
+        <span class="badge bg-danger">Wrong</span>
+    </div>
 </div>
 
 </form>
 <script th:inline="javascript">
     var id= [[${quiz.id}]];
     var rightAnswer = [[${quiz.answer}]];
+    $('#submit2').click(function() {
+        let number = $("input[name='radio_group']:checked").val();
+        var answer = {id: id, answer: number};
+        fetch("/answer", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(answer)
+        }).then(res=> {
+            //console.log(JSON.stringify(answer));
+        });
+        $('input[name="radio_group"]').prop('checked', false); //Убрать выбор
+    });
 
     $('#submit').click(function() {
         let number = $("input[name='radio_group']:checked").val();
@@ -37,7 +55,7 @@
             $('#answer').append(badge);
         //console.log(number);
         var answer = {id: id, answer: number};
-        fetch("/sendanswer", {
+        fetch("/answer", {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(answer)
@@ -45,6 +63,7 @@
             //console.log(JSON.stringify(answer));
     });
         $('input[name="radio_group"]').prop('checked', false); //Убрать выбор
+
     }
 
     );

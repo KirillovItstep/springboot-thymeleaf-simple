@@ -11,7 +11,7 @@ public class ReqResController {
 
     @RequestMapping("/index")
     public String getFlowers(Model model) {
-        String[] colors = new String[] { "#FF0000", "#00FF00", "#0000FF"};
+        String[] colors = new String[] { "#FFFF00", "#00FF00", "#0000FF"};
         model.addAttribute("colors", colors);
         return "request_response";
     }
